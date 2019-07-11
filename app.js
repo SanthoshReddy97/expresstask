@@ -16,6 +16,7 @@ app.use(session({
 
 app.get('/cookies', function(req, res){
    res.send("cookies are logged in the code editor");
+  console.log(path);
   console.log(req.cookies);
   console.log(req.session);
 });
