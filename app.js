@@ -1,20 +1,23 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const session = require('express-session');
+cosnt cookieParser = require("cookie-parser")
 const path = require('path');
 const mongoose = require('mongoose');
 var app = express();
 
 //express  session
+app.use(cookieParser());
 app.use(session({
-  secret: 'secretkey....',
+  secret: 'secretkey....anystring',
   resave: false,
   saveUninitialized: true,
-  cookie: { secure: true }
 }));
 
 app.get('/cookies', function(req, res){
-   res.cookie('name', 'expresscookiesession').send('cookie set');
+   res.send("cookies are logged in the code editor");
+  console.log(req.cookies);
+  console.log(req.session);
 });
 
 
