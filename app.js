@@ -4,24 +4,31 @@ const session = require('express-session');
 const cookieParser = require("cookie-parser")
 const path = require('path');
 const mongoose = require('mongoose');
-var app = express();
+const app = express();
 
 //express  session
+const hour = 3600000
 app.use(cookieParser());
-app.use(session({
-  secret: 'secretkey....anystring',
-  resave: false,
-  saveUninitialized: true,
-}));
+app.set('trust proxy', 1) 
+app.use(
+  session({
+    secret: 'secretkey....anystring',
+    resave: false,
+    saveUninitialized: true,
+  }));
 
 app.get('/cookies', function(req, res){
-   res.send("cookies are logged in the code editor");
-  console.log(path);
-  console.log(req.cookies);
-  console.log(req.session);
+  req.session.count = req.session.count + 1 || 0;
+  req.session.save();
+  req.session.cookie.expires = new Date(Date.now() + hour);
+  req.session.cookie.maxAge = hour;
+  req.session.cookie.path = req.path;
+   res.send({
+    count: "reloaded page: " + req.session.count,
+    sessionId : req.sessionID,
+    sessionCookie: req.session.cookie
+   });
 });
-
-
 
 
 //mondodb connection
