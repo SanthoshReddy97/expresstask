@@ -7,12 +7,9 @@ router.get('/parameters', (req, res) => {
     res.render('parameters', {viewTitle: "Add Items"});
 });
 
-router.use(function (req, res, next) {
-    if( req.path == "/middlewares"){
-        console.log("middleware added")
-        next()}
-    else{
-        next()
+router.use("/middleware", function (req, res, next) {
+       req.body = "middleware"
+       next()
     }
 });
 
